@@ -1,12 +1,14 @@
 import { Router } from "express";
-import { tokenValidator } from "../middlewares/tokenValidtor.js";
-
+import { createExam, getExamsByDisciples, getExamsByTeachers } from "../controllers/examController.js";
+import schemaValidator from "../middlewares/schemaValidator.js";
+import { tokenValidator } from "../middlewares/tokenValidator.js";
+import examSchema from "../schemas/examSchema.js";
 const examsRouter = Router()
 
 // examsRouter.use(tokenValidator)
 
-examsRouter.post("/exam-creation")
-examsRouter.get("/exam-view-by-discipline")
-examsRouter.get("/exam-view-by-teacher")
+examsRouter.post("/exam/creation", schemaValidator(examSchema), createExam)
+examsRouter.get("/exams/discipline", getExamsByDisciples)
+examsRouter.get("/exam/teacher", getExamsByTeachers)
 
 export default examsRouter;
