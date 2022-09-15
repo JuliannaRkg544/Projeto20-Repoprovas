@@ -3,7 +3,7 @@ import { tokenValidator } from "../middlewares/tokenValidtor.js";
 
 const examsRouter = Router()
 
-examsRouter.use(tokenValidator)
+// examsRouter.use(tokenValidator)
 
 examsRouter.post("/exam-creation")
 examsRouter.get("/exam-view-by-discipline")
