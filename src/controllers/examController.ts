@@ -27,9 +27,12 @@ export async function createExam(req: Request, res: Response) {
 }
 
 export async function getExamsByDisciples(req: Request, res: Response) {
-  // res.send()
+
+  const exams = await examService.getExamsByDisciplines()
+  res.status(200).send(exams)
 }
 
 export async function getExamsByTeachers(req: Request, res: Response) {
-  // res.send()
+  const exams = await examService.getExamsByTeacher()
+  res.status(200).send(exams)
 }

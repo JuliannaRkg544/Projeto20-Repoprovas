@@ -22,7 +22,7 @@ async function checkUserEmail(email:string){
      const user = await authReposiroty.findUserByEmail(email)
     if(user){
         console.log(user)
-        throw{type:"forbidden", message:"user already signed"}
+        throw{type:"conflict", message:"user already signed"}
     }
 }
 

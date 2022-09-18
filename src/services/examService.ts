@@ -20,7 +20,8 @@ async function createExam(
     categoryId: categoryId.id,
     teacherDisciplineId:teacherDisciplineId.id
   };
-  await examsRepository.createExam(examdata)
+  const exam = await examsRepository.createExam(examdata)
+   return exam
 }
 
 async function verifyCategory(category: string) {
@@ -61,8 +62,14 @@ async function findByDiscplineAndTeacher(
     return isValidTeacherAndDisciplineId
 }
 
-async function getExamsByDisciples() {}
+async function getExamsByDisciplines() {
+  const tests = await examsRepository.selectAllTestsByDiscipline()
+  return tests;
+}
+ 
+async function getExamsByTeacher(){
+  const tests = await examsRepository.selectAllTestsByTeacher()
+  return tests;
+}
 
-async function getExamesyTeacher() {}
-
-export { createExam, getExamsByDisciples, getExamesyTeacher };
+export { createExam, getExamsByDisciplines, getExamsByTeacher };

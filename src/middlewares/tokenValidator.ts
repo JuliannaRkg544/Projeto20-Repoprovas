@@ -26,7 +26,7 @@ export async function tokenValidator(
     };
   }
 
-  res.locals.user = Number(user);
-  console.log(res.locals.user)
+  // res.locals.user = Number(user);
+  console.log(user)
   next();
 }
