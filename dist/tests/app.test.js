@@ -1,3 +1,14 @@
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,9 +45,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import app from "../src/app";
+import app from "../src/app.js";
 import supertest from "supertest";
-import * as userfactory from "./factories/authFactory";
+import * as userfactory from "./factories/authFactory.js";
 describe('Logup user authentication /signup', function () {
     it('should create user, given email and password', function () { return __awaiter(void 0, void 0, void 0, function () {
         var logup, result;
@@ -69,8 +80,80 @@ describe('Logup user authentication /signup', function () {
             }
         });
     }); });
-}); //post logup
-describe('Login user authentication /signin', function () { }); //post login 
-describe('Create exam /', function () { }); //post exam
-describe('Get exams by disciplines', function () { }); //get exam discipline
-describe('Get exams by teacher', function () { }); //get exam teacher
+    it("given an invalid input, returns 422", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var login, response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    login = userfactory.createLogup();
+                    delete login.email;
+                    console.log("logion", login);
+                    return [4 /*yield*/, supertest(app).post("/signup").send(login)];
+                case 1:
+                    response = _a.sent();
+                    expect(response.status).toBe(422);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+});
+describe('Login user authentication /signin', function () {
+    it("should return 400 for empty email or password", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var login, response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    login = { email: "", password: "" };
+                    return [4 /*yield*/, supertest(app).post("/signin").send(login)];
+                case 1:
+                    response = _a.sent();
+                    expect(response.status).toBe(422);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("should return token for valid input", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var login, response, token;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    login = userfactory.createLogup();
+                    delete login.passwordConfirmation;
+                    return [4 /*yield*/, userfactory.createUser(login)];
+                case 1:
+                    _a.sent();
+                    console.log(login);
+                    return [4 /*yield*/, supertest(app).post("/signin").send({
+                            login: login
+                        })];
+                case 2:
+                    response = _a.sent();
+                    token = response.text;
+                    expect(token).not.toBeNull();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("returns 401 for wrong email or password", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var login, user, response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    login = userfactory.createLogup();
+                    delete login.passwordConfirmation;
+                    user = userfactory.createUser(login);
+                    return [4 /*yield*/, supertest(app)
+                            .post("/signin")
+                            .send(__assign(__assign({}, login), { password: "outropassword" }))];
+                case 1:
+                    response = _a.sent();
+                    expect(response.status).toBe(401);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+}); //post login 
+// describe('Create exam /exam/creation',()=>{}) //post exam
+// describe('Get exams by disciplines /exam/get-by-disciplines',()=>{
+// }) //get exam discipline
+// describe('Get exams by teacher /exam/get-by-teacher',()=>{}) //get exam teacher

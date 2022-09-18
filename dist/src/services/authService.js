@@ -44,15 +44,8 @@ function signup(email, password) {
         var hashPass, userdata;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: 
-                //buscar user por email OK
-                // hasherizar senha
-                // enviar para o banco
-                return [4 /*yield*/, checkUserEmail(email)];
+                case 0: return [4 /*yield*/, checkUserEmail(email)];
                 case 1:
-                    //buscar user por email OK
-                    // hasherizar senha
-                    // enviar para o banco
                     _a.sent();
                     hashPass = hashPassword(password);
                     userdata = {
@@ -94,9 +87,6 @@ function signin(email, password) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    //verificar se email é cadastrado OK
-                    //verificar se senha bate com o do email OK
-                    //gerar token com jwt OK
                     if (!email || !password) {
                         throw { type: "unprocessable_entity", message: "invalid information" };
                     }
