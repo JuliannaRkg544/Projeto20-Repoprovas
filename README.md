@@ -34,10 +34,7 @@ POST /signup
 
 
 
-POST /exam/creation (autenticada)
-
-
-    - Route to post a new exam
+POST /exam/creation (autenticada) - Route to post a new exam
     
     
     - headers: { "Authorization": "Bearer $token" }
@@ -53,14 +50,14 @@ POST /exam/creation (autenticada)
         
         
         
- GET /exams/discipline (autenticada)
+ GET /exams/discipline (autenticada) - Route to list all tests group by discipline
  
  
-    - Route to list all tests group by discipline
     - headers: { "Authorization": "Bearer $token" }
     - body: {}
 
-GET /tests/teacher (autenticada)
-      - Route to list all tests group by teacher
+GET /tests/teacher (autenticada) - Route to list all tests group by teacher
+
+
     - headers: { "Authorization": "Bearer $token" }
     - body: {}
