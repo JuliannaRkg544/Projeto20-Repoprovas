@@ -7,24 +7,42 @@ or send old tests to help others students.
 
 POST /signup
     - Route to signup a new user 
+    
+    
     - headers: {}
+    
+    
     - body:
         {
             "email": "email@gmail.com",
             "password": "emailzinho",
             "confirmPassword": "emailzinho"
         }
+        
+        
  POST /signin
     - Route to login a user
+    
+    
     - headers: {}
+    
+    
     - body:
         {  "email": "email@gmail.com",
             "password": "emailzinho",
         }
 
+
+
 POST /exam/creation (autenticada)
+
+
     - Route to post a new exam
+    
+    
     - headers: { "Authorization": "Bearer $token" }
+    
+    
     - body:
         {
             "name": "earum",
@@ -36,6 +54,8 @@ POST /exam/creation (autenticada)
         
         
  GET /exams/discipline (autenticada)
+ 
+ 
     - Route to list all tests group by discipline
     - headers: { "Authorization": "Bearer $token" }
     - body: {}
