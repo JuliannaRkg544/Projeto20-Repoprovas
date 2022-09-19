@@ -75,7 +75,6 @@ function verifyCategory(category) {
                 case 1:
                     isValidCategory = _a.sent();
                     if (!isValidCategory) {
-                        console.log(isValidCategory);
                         throw { type: "unprocessable_entity", message: "invalid category" };
                     }
                     return [2 /*return*/, isValidCategory];

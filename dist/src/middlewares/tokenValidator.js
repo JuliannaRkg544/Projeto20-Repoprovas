@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 import jwt from "jsonwebtoken";
 export function tokenValidator(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var authorization, token, secretKey, user;
+        var authorization, token, secretKey;
         return __generator(this, function (_a) {
             authorization = req.headers.authorization;
             token = authorization === null || authorization === void 0 ? void 0 : authorization.replace("Bearer ", "").trim();
@@ -48,15 +48,14 @@ export function tokenValidator(req, res, next) {
                     message: "No token"
                 };
             }
-            user = jwt.verify(token, secretKey);
-            if (!user) {
-                throw {
-                    type: "not_found",
-                    message: "User not found"
-                };
-            }
-            // res.locals.user = Number(user);
-            console.log(user);
+            jwt.verify(token, secretKey, function (err, decoded) {
+                if (err) {
+                    return res.sendStatus(404);
+                }
+                res.locals.user = decoded;
+                console.log(decoded);
+            });
+            // console.log(user);
             next();
             return [2 /*return*/];
         });

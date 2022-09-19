@@ -1,5 +1,4 @@
 export default function errorHandler(error, req, res, next) {
-    console.log(error);
     if (error.type === 'not_found')
         return res.status(404).send(error.type.message);
     if (error.type === 'forbidden')

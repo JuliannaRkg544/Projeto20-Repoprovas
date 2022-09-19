@@ -7,7 +7,6 @@ async function createExam(
   discipline: string,
   teacher: string
 ) {
-  //verificar validade de category, discipline and teacher
   const categoryId = await verifyCategory(category);
   const disciplineId = await verifyDiscipline(discipline);
   const teacherId = await verifyTeacher(teacher);
@@ -28,7 +27,6 @@ async function verifyCategory(category: string) {
   const isValidCategory = await examsRepository.findByCategoryName(category);
 
   if (!isValidCategory) {
-    console.log(isValidCategory);
     throw { type: "unprocessable_entity", message: "invalid category" };
   }
   return isValidCategory;

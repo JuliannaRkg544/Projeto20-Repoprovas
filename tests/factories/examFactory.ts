@@ -1,4 +1,4 @@
-//name, url, category,discipline,teacher
+
 import { faker } from "@faker-js/faker"
 export function createExam(){
   return{

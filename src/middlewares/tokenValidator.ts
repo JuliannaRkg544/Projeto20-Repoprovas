@@ -1,4 +1,3 @@
-
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
@@ -18,15 +17,13 @@ export async function tokenValidator(
     };
   }
 
-  const user = jwt.verify(token, secretKey);
-  if (!user) {
-    throw {
-      type: "not_found",
-      message: "User not found",
-    };
-  }
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err){ 
+     return res.sendStatus(404)
+    }
+    res.locals.user = decoded;
+    console.log(decoded)
+  });
 
-  // res.locals.user = Number(user);
-  console.log(user)
   next();
 }
