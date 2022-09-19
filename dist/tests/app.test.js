@@ -48,6 +48,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 import app from "../src/app.js";
 import supertest from "supertest";
 import * as userfactory from "./factories/authFactory.js";
+import * as examfactory from "./factories/examFactory.js";
 describe('Logup user authentication /signup', function () {
     it('should create user, given email and password', function () { return __awaiter(void 0, void 0, void 0, function () {
         var logup, result;
@@ -80,7 +81,7 @@ describe('Logup user authentication /signup', function () {
             }
         });
     }); });
-    it("given an invalid input, returns 422", function () { return __awaiter(void 0, void 0, void 0, function () {
+    it("should return 422, given an invalid input", function () { return __awaiter(void 0, void 0, void 0, function () {
         var login, response;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -134,26 +135,104 @@ describe('Login user authentication /signin', function () {
             }
         });
     }); });
-    it("returns 401 for wrong email or password", function () { return __awaiter(void 0, void 0, void 0, function () {
-        var login, user, response;
+    it("should return 401 for wrong email or password", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var login, response;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     login = userfactory.createLogup();
                     delete login.passwordConfirmation;
-                    user = userfactory.createUser(login);
+                    return [4 /*yield*/, userfactory.createUser(login)];
+                case 1:
+                    _a.sent();
                     return [4 /*yield*/, supertest(app)
                             .post("/signin")
                             .send(__assign(__assign({}, login), { password: "outropassword" }))];
-                case 1:
+                case 2:
                     response = _a.sent();
                     expect(response.status).toBe(401);
                     return [2 /*return*/];
             }
         });
     }); });
-}); //post login 
-// describe('Create exam /exam/creation',()=>{}) //post exam
-// describe('Get exams by disciplines /exam/get-by-disciplines',()=>{
-// }) //get exam discipline
+});
+describe('Create exam /exam/creation', function () {
+    // it("should create exam, given valid inputs", async () => {
+    //   const login = userfactory.createLogup();
+    //   delete login.passwordConfirmation;
+    //   await userfactory.createUser(login);
+    //   let result = await supertest(app).post("/signin").send(login);
+    //   const token = result.text;
+    //   const exam = examfactory.createExam();
+    //   result = await supertest(app)
+    //     .post("/exam/creation")
+    //     .send(exam)
+    //     .set("Authorization", `Bearer ${token}`);
+    //     console.log("exame ", exam)
+    //     expect(result.status).toEqual(201);
+    //   const savedTest = await client.tests.findFirst({
+    //     where: {name: exam.name},
+    //   });
+    //   expect(exam.name).toBe(savedTest.name);
+    // });
+    it("should return 422 for empty fields ", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var login, result, token, exam;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    login = userfactory.createLogup();
+                    delete login.passwordConfirmation;
+                    return [4 /*yield*/, userfactory.createUser(login)];
+                case 1:
+                    _a.sent();
+                    return [4 /*yield*/, supertest(app).post("/signin").send({
+                            login: login
+                        })];
+                case 2:
+                    result = _a.sent();
+                    token = result.text;
+                    exam = examfactory.createExam();
+                    delete exam.name;
+                    return [4 /*yield*/, supertest(app).post("/exam/creation").send(exam).set("Authorization", "Bearer ".concat(token))];
+                case 3:
+                    result = _a.sent();
+                    expect(result.status).toBe(422);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("should return 401 given no token", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var exam, result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    exam = examfactory.createExam();
+                    return [4 /*yield*/, supertest(app).post("/exam/creation").send(exam)];
+                case 1:
+                    result = _a.sent();
+                    expect(result.status).toEqual(401);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("should return 404, given invalid token", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var token, exam, response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    token = "invalidtoken";
+                    exam = examfactory.createExam();
+                    return [4 /*yield*/, supertest(app)
+                            .post("/exam/creation")
+                            .send(exam)
+                            .set("Authorization", "Bearer ".concat(token))];
+                case 1:
+                    response = _a.sent();
+                    expect(response.status).toEqual(404);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+}); //post exam
+// describe('Get exams by disciplines /exam/get-by-disciplines',()=>{}) //get exam discipline
 // describe('Get exams by teacher /exam/get-by-teacher',()=>{}) //get exam teacher

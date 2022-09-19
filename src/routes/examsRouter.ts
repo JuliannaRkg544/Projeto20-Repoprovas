@@ -5,7 +5,7 @@ import { tokenValidator } from "../middlewares/tokenValidator.js";
 import examSchema from "../schemas/examSchema.js";
 const examsRouter = Router()
  
-// examsRouter.use(tokenValidator)
+examsRouter.use(tokenValidator)
 
 examsRouter.post("/exam/creation", schemaValidator(examSchema), createExam)
 examsRouter.get("/exams/discipline", getExamsByDisciples)

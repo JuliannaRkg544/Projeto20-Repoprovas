@@ -4,11 +4,18 @@ export function createExam(){
   return{
     name: faker.name.jobTitle(),
     url: faker.internet.url(),
-    category: faker.name.jobArea(),
-    discipline: faker.name.jobType(),
-    teacher: faker.name.firstName()
+    category: "Prática" ,
+    discipline: "Autoconfiança",
+    teacher: "Bruna Hamori"
   }
 }
-export function insertExam(){
+interface ExamType {
+  name: string,
+  url: string,
+  category:string,
+  discipline: string,
+  teacher: string
+}
+export async function insertExam(exam:ExamType){
     
 }
