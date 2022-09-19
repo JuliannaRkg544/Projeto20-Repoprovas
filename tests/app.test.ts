@@ -123,71 +123,71 @@ it("should return 404, given invalid token", async () => {
 
 }) //post exam
 
-describe('Get exams by disciplines /exam/get-by-disciplines',async ()=>{
-  it("given valid inputs, get tests by discipline", async () => {
-    const login = userFactory.createLogin();
-    delete login.confirmPassword;
-    await userFactory.createUser(login);
+// describe('Get exams by disciplines /exam/get-by-disciplines',async ()=>{
+//   it("given valid inputs, get tests by discipline", async () => {
+//     const login = userFactory.createLogin();
+//     delete login.confirmPassword;
+//     await userFactory.createUser(login);
 
-    let response = await supertest(app).post("/sign-in").send(login);
-    const token = response.text;
+//     let response = await supertest(app).post("/sign-in").send(login);
+//     const token = response.text;
 
-    const test = testFactory.createTestInfo();
+//     const test = testFactory.createTestInfo();
 
-    response = await supertest(app)
-      .post("/tests")
-      .send(test)
-      .set("Authorization", `Bearer ${token}`);
+//     response = await supertest(app)
+//       .post("/tests")
+//       .send(test)
+//       .set("Authorization", `Bearer ${token}`);
 
-    response = await supertest(app)
-      .get("/tests/disciplines")
-      .set("Authorization", `Bearer ${token}`);
+//     response = await supertest(app)
+//       .get("/tests/disciplines")
+//       .set("Authorization", `Bearer ${token}`);
 
-    expect(response.body).not.toBeNull();
-    expect(response.status).toEqual(200);
-  });
-  it("given no token, returns 401", async () => {
-    const login = userFactory.createLogin();
-    delete login.confirmPassword;
-    await userFactory.createUser(login);
+//     expect(response.body).not.toBeNull();
+//     expect(response.status).toEqual(200);
+//   });
+//   it("given no token, returns 401", async () => {
+//     const login = userFactory.createLogin();
+//     delete login.confirmPassword;
+//     await userFactory.createUser(login);
 
-    let response = await supertest(app).post("/sign-in").send(login);
-    const token = response.text;
+//     let response = await supertest(app).post("/sign-in").send(login);
+//     const token = response.text;
 
-    const test = testFactory.createTestInfo();
+//     const test = testFactory.createTestInfo();
 
-    response = await supertest(app)
-      .post("/tests")
-      .send(test)
-      .set("Authorization", `Bearer ${token}`);
+//     response = await supertest(app)
+//       .post("/tests")
+//       .send(test)
+//       .set("Authorization", `Bearer ${token}`);
 
-    response = await supertest(app).get("/tests/disciplines");
+//     response = await supertest(app).get("/tests/disciplines");
 
-    expect(response.status).toEqual(401);
-  });
+//     expect(response.status).toEqual(401);
+//   });
 
-  it("given invalid token, returns 404", async () => {
-    const login = userFactory.createLogin();
-    delete login.confirmPassword;
-    await userFactory.createUser(login);
+//   it("given invalid token, returns 404", async () => {
+//     const login = userFactory.createLogin();
+//     delete login.confirmPassword;
+//     await userFactory.createUser(login);
 
-    let response = await supertest(app).post("/sign-in").send(login);
-    const token = response.text;
+//     let response = await supertest(app).post("/sign-in").send(login);
+//     const token = response.text;
 
-    const test = testFactory.createTestInfo();
+//     const test = testFactory.createTestInfo();
 
-    response = await supertest(app)
-      .post("/tests")
-      .send(test)
-      .set("Authorization", `Bearer ${token}`);
+//     response = await supertest(app)
+//       .post("/tests")
+//       .send(test)
+//       .set("Authorization", `Bearer ${token}`);
 
-    const INVALID_TOKEN = "invalidtoken";
-    response = await supertest(app)
-      .get("/tests/disciplines")
-      .set("Authorization", `Bearer ${INVALID_TOKEN}`);
+//     const INVALID_TOKEN = "invalidtoken";
+//     response = await supertest(app)
+//       .get("/tests/disciplines")
+//       .set("Authorization", `Bearer ${INVALID_TOKEN}`);
 
-    expect(response.status).toEqual(404);
-  });
-}) //get exam discipline
+//     expect(response.status).toEqual(404);
+//   });
+// }) //get exam discipline
 
-// describe('Get exams by teacher /exam/get-by-teacher',()=>{}) //get exam teacher
+// // describe('Get exams by teacher /exam/get-by-teacher',()=>{}) //get exam teacher
